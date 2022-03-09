@@ -6,15 +6,15 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs", // transforma o import para require, pois o type: 'module' funciona de maneira "ruim"
-    "moduleResolution": "node", // permite import de pastas
-    "esModuleInterop": true, // resolver compatibilidade entre modules diferentes (import/require)
-    "baseUrl": "src", // Define a rota basica para os paths
-    "paths": { // caminhos dinâmicos
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
     },
     "strict": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

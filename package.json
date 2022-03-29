@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/fabricio-cerci/clean-advanced-node#readme",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/jest": "^27.4.1",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^17.0.21",
@@ -46,6 +47,7 @@
     "node": "16.x"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "module-alias": "^2.2.2",
     "rimraf": "^3.0.2"
   }

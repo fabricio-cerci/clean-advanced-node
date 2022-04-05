@@ -5,7 +5,7 @@ export const config: ConnectionOptions = {
   host: 'kesavan.db.elephantsql.com',
   port: 5432,
   username: 'xsqqslza',
-  password: 'pCh7roX7Xl8XFXUiOxs-uv5P-OJ2iq8d',
+  password: 'alguma_senha',
   database: 'xsqqslza',
   entities: ['dist/infra/postgres/entities/index.js']
 }

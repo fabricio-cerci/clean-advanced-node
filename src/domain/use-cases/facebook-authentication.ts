@@ -1,4 +1,4 @@
-import { LoadFacebookUser, TokenGenerator } from '@/domain/contracts/ gateways'
+import { LoadFacebookUser, TokenGenerator } from '@/domain/contracts/gateways'
 import { LoadUserAccount, SaveFacebookAccount } from '@/domain/contracts/repos'
 import { AuthenticationError } from '@/domain/entities/errors'
 import { AccessToken, FacebookAccount } from '@/domain/entities'

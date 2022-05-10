@@ -41,7 +41,7 @@ describe('FacebookAuthentication', () => {
     )
   })
 
-  test('should call LoadFacebookUser with correct params', async () => {
+  test('should call LoadFacebookUser with correct input', async () => {
     await sut({ token })
 
     expect(facebookApi.loadUser).toHaveBeenCalledWith({ token })
@@ -70,7 +70,7 @@ describe('FacebookAuthentication', () => {
     expect(userAccountRepo.saveWithFacebook).toHaveBeenCalledTimes(1)
   })
 
-  test('should call TokenGenerator with correct params', async () => {
+  test('should call TokenGenerator with correct input', async () => {
     await sut({ token })
 
     expect(crypto.generate).toHaveBeenCalledWith({

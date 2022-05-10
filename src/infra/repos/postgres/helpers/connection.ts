@@ -1,10 +1,12 @@
 import { ConnectionNotFoundedError } from '@/infra/repos/postgres/helpers'
 
-import { createConnection, getConnection, getConnectionManager, QueryRunner, ObjectType, Repository } from 'typeorm'
+import { createConnection, getConnection, getConnectionManager, QueryRunner, ObjectType, Repository, Connection, getRepository } from 'typeorm'
+import { TransactionNotFoundedError } from './errors'
 
 export class PgConnection {
   private static instance?: PgConnection
   private query?: QueryRunner
+  private connection?: Connection
 
   private constructor () {}
 
@@ -14,40 +16,42 @@ export class PgConnection {
   }
 
   async connect (): Promise<void> {
-    const connection = getConnectionManager().has('default')
+    this.connection = getConnectionManager().has('default')
       ? getConnection()
       : await createConnection()
-    this.query = connection.createQueryRunner()
   }
 
   async disconnect (): Promise<void> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
+    if (this.connection === undefined) throw new ConnectionNotFoundedError()
     await getConnection().close()
     this.query = undefined
+    this.connection = undefined
   }
 
   async openTransaction (): Promise<void> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
+    if (this.connection === undefined) throw new ConnectionNotFoundedError()
+    this.query = this.connection.createQueryRunner()
     await this.query.startTransaction()
   }
 
   async closeTransaction (): Promise<void> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
+    if (this.query === undefined) throw new TransactionNotFoundedError()
     await this.query.release()
   }
 
   async commit (): Promise<void> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
+    if (this.query === undefined) throw new TransactionNotFoundedError()
     await this.query.commitTransaction()
   }
 
   async rollback (): Promise<void> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
+    if (this.query === undefined) throw new TransactionNotFoundedError()
     await this.query.rollbackTransaction()
   }
 
   getRepository<Entity> (entity: ObjectType<Entity>): Repository<Entity> {
-    if (this.query === undefined) throw new ConnectionNotFoundedError()
-    return this.query.manager.getRepository(entity)
+    if (this.connection === undefined) throw new ConnectionNotFoundedError()
+    if (this.query !== undefined) { return this.query.manager.getRepository(entity) }
+    return getRepository(entity)
   }
 }
